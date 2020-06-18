@@ -38,9 +38,9 @@ public class RestaurantAdminController {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") Restaurant restaurantFromDb, @RequestBody Restaurant restaurant) {
-        assureIdConsistent(restaurant, restaurantFromDb);
-        restaurantService.update(restaurant, restaurantFromDb);
+    public void update(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
+        assureIdConsistent(restaurant, id);
+        restaurantService.update(restaurant);
     }
 
     @GetMapping("/{id}")
