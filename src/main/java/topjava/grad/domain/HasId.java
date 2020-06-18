@@ -3,9 +3,9 @@ package topjava.grad.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public interface HasId {
-    Long getId();
+    Integer getId();
 
-    void setId(Long id);
+    void setId(Integer id);
 
     @JsonIgnore
     default boolean isNew() {
