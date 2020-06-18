@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
+import topjava.grad.data.MenuTestData;
 import topjava.grad.domain.Menu;
 import topjava.grad.repo.MenuRepo;
 import topjava.grad.util.exception.NotFoundException;
