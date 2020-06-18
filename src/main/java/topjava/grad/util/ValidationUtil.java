@@ -6,7 +6,11 @@ import topjava.grad.util.exception.NotFoundException;
 
 public class ValidationUtil {
 
-    public static void assureIdConsistent(HasId bean, Long id) {
+    public static void assureIdConsistent(HasId bean, HasId beanFromDb) {
+        assureIdConsistent(bean, beanFromDb.getId());
+    }
+
+    public static void assureIdConsistent(HasId bean, Integer id) {
         if (bean.isNew()) {
             bean.setId(id);
         } else if (!bean.getId().equals(id)) {

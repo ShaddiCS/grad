@@ -1,40 +1,38 @@
 package topjava.grad.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.grad.domain.Restaurant;
 import topjava.grad.repo.RestaurantRepo;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RestaurantService {
     private final RestaurantRepo restaurantRepo;
-
-    @Autowired
-    public RestaurantService(RestaurantRepo restaurantRepo) {
-        this.restaurantRepo = restaurantRepo;
-    }
 
     public List<Restaurant> getAll() {
         return restaurantRepo.findAll();
     }
 
+    @Transactional
     public Restaurant create(Restaurant restaurant) {
         return restaurantRepo.save(restaurant);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         restaurantRepo.deleteById(id);
     }
 
-    public void update(Restaurant restaurant) {
-        restaurantRepo.save(restaurant);
+    @Transactional
+    public void update(Restaurant restaurant, Restaurant restaurantFromDb) {
+        BeanUtils.copyProperties(restaurant, restaurantFromDb);
     }
 
-    public Restaurant get(Long id) {
-        return restaurantRepo.getByMenuDate(id, LocalDate.now());
+    public Restaurant get(Integer id) {
+        return restaurantRepo.findById(id).orElse(null);
     }
 }
