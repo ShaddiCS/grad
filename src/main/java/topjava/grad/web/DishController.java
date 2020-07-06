@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import topjava.grad.domain.Dish;
+import topjava.grad.domain.to.DishTo;
 import topjava.grad.service.DishService;
 
 import java.net.URI;
@@ -17,14 +18,14 @@ import static topjava.grad.util.ValidationUtil.checkNew;
 @RequestMapping(DishController.REST_URL)
 @RequiredArgsConstructor
 public class DishController {
-    final static String REST_URL = MenuController.REST_URL + "/{menuId}/dishes";
+    final static String REST_URL = "/rest/dishes";
     private final DishService dishService;
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Dish> create(@RequestBody Dish dish,@PathVariable Integer menuId) {
-        checkNew(dish);
-        Dish created = dishService.create(dish, menuId);
+    public ResponseEntity<Dish> create(@RequestBody DishTo dishTo) {
+        checkNew(dishTo);
+        Dish created = dishService.create(dishTo);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -40,9 +41,9 @@ public class DishController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void update(@RequestBody Dish dish,@PathVariable Integer id, @PathVariable Integer menuId) {
-        assureIdConsistent(dish, id);
-        dishService.update(dish, menuId);
+    public void update(@RequestBody DishTo dishTo, @PathVariable Integer id) {
+        assureIdConsistent(dishTo, id);
+        dishService.update(dishTo);
     }
 
     @GetMapping("/{id}")

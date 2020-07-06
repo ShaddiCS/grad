@@ -1,9 +1,5 @@
 package topjava.grad.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "menu")
 public class Menu extends AbstractBaseEntity {
-    @OneToMany(mappedBy = "menu",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @OrderBy("id")
     private List<Dish> dishes;
 
@@ -37,8 +33,13 @@ public class Menu extends AbstractBaseEntity {
     private LocalDate date;
 
     public Menu(Integer id, LocalDate date) {
-        this.id = id;
+        this(id, date, null);
+    }
+
+    public Menu(Integer id, LocalDate date, Restaurant restaurant) {
+        super(id);
         this.date = date;
+        this.restaurant = restaurant;
     }
 
     public Menu(LocalDate date) {

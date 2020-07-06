@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import topjava.grad.domain.Dish;
+import topjava.grad.domain.to.DishTo;
 import topjava.grad.repo.DishRepo;
 import topjava.grad.util.exception.NotFoundException;
 
@@ -26,11 +27,11 @@ class DishServiceTest {
 
     @Test
     void create() {
-        Dish newDish = getNewDish();
-        Dish created = dishService.create(newDish, MENU_1_ID);
+        DishTo newDish = getNewDish();
+        Dish created = dishService.create(newDish);
         newDish.setId(created.getId());
 
-        DISH_MATCHER.assertMatch(created, newDish);
+        DISH_MATCHER.assertMatch(created, dishService.createFromTo(newDish));
     }
 
     @Test
@@ -46,9 +47,9 @@ class DishServiceTest {
 
     @Test
     void update() {
-        Dish dish = getUpdatedDish();
-        dishService.update(dish, MENU_1_ID);
-        DISH_MATCHER.assertMatch(dishService.get(DISH_1_ID), dish);
+        DishTo dish = getUpdatedDish();
+        dishService.update(dish);
+        DISH_MATCHER.assertMatch(dishService.get(DISH_1_ID), dishService.createFromTo(dish));
     }
 
     @Test

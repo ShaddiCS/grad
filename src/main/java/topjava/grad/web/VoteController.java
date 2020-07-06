@@ -15,11 +15,11 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 @RequestMapping(VoteController.REST_URL)
 public class VoteController {
-    final static String REST_URL = RestaurantController.REST_URL + "/{id}/vote";
+    final static String REST_URL = "/rest/vote";
     private final static LocalTime TIME_LIMIT = LocalTime.of(11, 0);
     private final VoteService voteService;
 
-    @PostMapping
+    @PostMapping("/{id}")
     public ResponseEntity<Vote> vote(@PathVariable Integer id, @AuthenticationPrincipal User user) {
         if (!voteService.vote(id, user)) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -27,7 +27,7 @@ public class VoteController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Vote> changeVote(@PathVariable Integer id, @AuthenticationPrincipal User user) {
         if (LocalTime.now().isAfter(TIME_LIMIT) || !voteService.updateVote(id, user)) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();

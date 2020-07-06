@@ -2,8 +2,11 @@ package topjava.grad.data;
 
 import topjava.grad.TestMatcher;
 import topjava.grad.domain.Dish;
+import topjava.grad.domain.to.DishTo;
 
 import java.util.List;
+
+import static topjava.grad.data.MenuTestData.MENU_1_ID;
 
 public class DishTestData {
     public static final TestMatcher<Dish> DISH_MATCHER = new TestMatcher<>("menu");
@@ -23,11 +26,11 @@ public class DishTestData {
     public static final List<Dish> DISHES_1 = List.of(DISH_1, DISH_2, DISH_3);
     public static final List<Dish> DISHES_2 = List.of(DISH_4, DISH_5);
 
-    public static Dish getNewDish() {
-        return new Dish(null, "New Dish", 333);
+    public static DishTo getNewDish() {
+        return new DishTo(null, "New Dish", 333, MENU_1_ID);
     }
 
-    public static Dish getUpdatedDish() {
-        return new Dish(DISH_1_ID, "Updated dish", 333);
+    public static DishTo getUpdatedDish() {
+        return new DishTo(DISH_1_ID, "Updated dish", 333, MENU_1_ID);
     }
 }

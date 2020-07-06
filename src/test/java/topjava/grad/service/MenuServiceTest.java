@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import topjava.grad.domain.Menu;
+import topjava.grad.domain.to.MenuTo;
 import topjava.grad.repo.MenuRepo;
 import topjava.grad.util.exception.NotFoundException;
 
@@ -31,11 +32,11 @@ class MenuServiceTest {
 
     @Test
     void create() {
-        Menu newMenu = getNew();
-        Menu created = menuService.create(newMenu, PLACE_1_ID);
+        MenuTo newMenu = getNew();
+        Menu created = menuService.create(newMenu);
         newMenu.setId(created.getId());
 
-        MENU_MATCHER.assertMatch(created, newMenu);
+        MENU_MATCHER.assertMatch(created, menuService.createFromTo(newMenu));
     }
 
     @Test
@@ -57,9 +58,9 @@ class MenuServiceTest {
 
     @Test
     void update() {
-        Menu menu = getUpdated();
-        menuService.update(menu, PLACE_1_ID);
-        MENU_MATCHER.assertMatch(menuService.getWithDishes(MENU_1_ID), menu);
+        MenuTo menu = getUpdated();
+        menuService.update(menu);
+        MENU_MATCHER.assertMatch(menuService.getWithDishes(MENU_1_ID), menuService.createFromTo(menu));
     }
 
     @Test

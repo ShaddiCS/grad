@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.grad.domain.Menu;
 import topjava.grad.domain.Restaurant;
+import topjava.grad.domain.to.MenuTo;
 import topjava.grad.repo.MenuRepo;
 import topjava.grad.repo.RestaurantRepo;
 import topjava.grad.util.exception.NotFoundException;
@@ -20,9 +21,8 @@ public class MenuService {
     private final RestaurantRepo restaurantRepo;
 
     @Transactional
-    public Menu create(Menu menu, Integer restaurantId) {
-        menu.setRestaurant(restaurantRepo.getOne(restaurantId));
-        return menuRepo.save(menu);
+    public Menu create(MenuTo menuTo) {
+        return menuRepo.save(createFromTo(menuTo));
     }
 
     public List<Menu> findAllByDate(LocalDate date) {
@@ -34,9 +34,8 @@ public class MenuService {
     }
 
     @Transactional
-    public void update(Menu menu, Integer restaurantId) {
-        menu.setRestaurant(restaurantRepo.getOne(restaurantId));
-        menuRepo.save(menu);
+    public void update(MenuTo menuTo) {
+        menuRepo.save(createFromTo(menuTo));
     }
 
     @Transactional
@@ -62,5 +61,9 @@ public class MenuService {
         }
 
         return menu;
+    }
+
+    public Menu createFromTo(MenuTo menuTo) {
+        return new Menu(menuTo.getId(), menuTo.getDate(), restaurantRepo.getOne(menuTo.getRestaurantId()));
     }
 }

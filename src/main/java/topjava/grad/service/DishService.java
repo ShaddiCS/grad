@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.grad.domain.Dish;
-import topjava.grad.domain.Menu;
+import topjava.grad.domain.to.DishTo;
 import topjava.grad.repo.DishRepo;
 import topjava.grad.repo.MenuRepo;
 import topjava.grad.util.exception.NotFoundException;
@@ -16,9 +16,8 @@ public class DishService {
     private final MenuRepo menuRepo;
 
     @Transactional
-    public Dish create(Dish dish, Integer menuId) {
-        dish.setMenu(menuRepo.getOne(menuId));
-        return dishRepo.save(dish);
+    public Dish create(DishTo dishTo) {
+        return dishRepo.save(createFromTo(dishTo));
     }
 
     @Transactional
@@ -29,12 +28,15 @@ public class DishService {
     }
 
     @Transactional
-    public void update(Dish dish, Integer menuId) {
-        dish.setMenu(menuRepo.getOne(menuId));
-        dishRepo.save(dish);
+    public void update(DishTo dishTo) {
+        dishRepo.save(createFromTo(dishTo));
     }
 
     public Dish get(Integer id) {
         return dishRepo.findById(id).orElseThrow(() -> new NotFoundException("id=" + id));
+    }
+
+    public Dish createFromTo(DishTo dishTo) {
+        return new Dish(dishTo.getId(), dishTo.getName(), dishTo.getPrice(), menuRepo.getOne(dishTo.getMenuId()));
     }
 }
