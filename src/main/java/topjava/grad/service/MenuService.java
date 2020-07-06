@@ -35,25 +35,19 @@ public class MenuService {
 
     @Transactional
     public void update(Menu menu, Integer restaurantId) {
-        Integer menuId = menu.getId();
-
-        if (menuRepo.get(menuId, restaurantId) == null) {
-            throw new NotFoundException("id=" + menuId);
-        }
-
         menu.setRestaurant(restaurantRepo.getOne(restaurantId));
         menuRepo.save(menu);
     }
 
     @Transactional
-    public void delete(Integer id, Integer restaurantId) {
-        if (menuRepo.delete(id, restaurantId) == 0) {
+    public void delete(Integer id) {
+        if (menuRepo.delete(id) == 0) {
             throw new NotFoundException("id=" + id);
         }
     }
 
-    public Menu get(Integer id, Integer restaurantId) {
-        Menu menu = menuRepo.get(id, restaurantId);
+    public Menu get(Integer id) {
+        Menu menu = menuRepo.get(id);
         if (menu == null) {
             throw new NotFoundException("id=" + id);
         }
@@ -61,8 +55,8 @@ public class MenuService {
         return menu;
     }
 
-    public Menu getWithDishes(Integer id, Integer restaurantId) {
-        Menu menu = menuRepo.getWithDishes(id, restaurantId);
+    public Menu getWithDishes(Integer id) {
+        Menu menu = menuRepo.getWithDishes(id);
         if (menu == null) {
             throw new NotFoundException("id=" + id);
         }

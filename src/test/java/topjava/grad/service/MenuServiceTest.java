@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import topjava.grad.data.MenuTestData;
 import topjava.grad.domain.Menu;
 import topjava.grad.repo.MenuRepo;
 import topjava.grad.util.exception.NotFoundException;
@@ -60,42 +59,30 @@ class MenuServiceTest {
     void update() {
         Menu menu = getUpdated();
         menuService.update(menu, PLACE_1_ID);
-        MENU_MATCHER.assertMatch(menuService.getWithDishes(MENU_1_ID, PLACE_1_ID), menu);
-    }
-
-    @Test
-    void updateNotFound() {
-        assertThrows(NotFoundException.class,
-                () -> menuService.update(MENU_1, PLACE_2_ID));
+        MENU_MATCHER.assertMatch(menuService.getWithDishes(MENU_1_ID), menu);
     }
 
     @Test
     void delete() {
-        menuService.delete(MENU_1_ID, PLACE_1_ID);
-        Assertions.assertNull(menuRepo.get(MENU_1_ID, PLACE_1_ID));
+        menuService.delete(MENU_1_ID);
+        Assertions.assertNull(menuRepo.get(MENU_1_ID));
     }
 
     @Test
     void deleteNotFound() {
         assertThrows(NotFoundException.class,
-                () -> menuService.delete(1, PLACE_1_ID));
-    }
-
-    @Test
-    void deleteWrongRestaurant() {
-        assertThrows(NotFoundException.class,
-                () -> menuService.delete(MENU_2_ID, PLACE_1_ID));
+                () -> menuService.delete(1));
     }
 
     @Test
     void get() {
-        Menu actual = menuService.get(MENU_1_ID, PLACE_1_ID);
+        Menu actual = menuService.get(MENU_1_ID);
         MENU_MATCHER.assertMatch(actual, MENU_1);
     }
 
     @Test
     void getWithDishes() {
-        Menu actual = menuService.getWithDishes(MENU_1_ID, PLACE_1_ID);
+        Menu actual = menuService.getWithDishes(MENU_1_ID);
         MENU_MATCHER.assertMatch(actual, MENU_1);
         DISH_MATCHER.assertMatch(actual.getDishes(), DISHES_1);
     }
@@ -103,14 +90,6 @@ class MenuServiceTest {
     @Test
     void getWithDishesNotFound() {
         assertThrows(NotFoundException.class,
-                () -> menuService.getWithDishes(1, PLACE_1_ID));
+                () -> menuService.getWithDishes(1));
     }
-
-    @Test
-    void getWithDishesWrongRestaurant() {
-        assertThrows(NotFoundException.class,
-                () -> menuService.getWithDishes(MENU_2_ID, PLACE_1_ID));
-    }
-
-
 }
