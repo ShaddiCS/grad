@@ -5,31 +5,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@Table(name = "vote", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "user_unique_date_idx"))
 public class Vote extends AbstractBaseEntity{
 
+    @Column(name = "vote_date")
+    @NotNull
     private LocalDate voteDate;
-    private LocalTime voteTime;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "menu_id", nullable = false)
+    @NotNull
     private Menu menu;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
 
-    public Vote(Menu menu, User user) {
-        this.voteTime = LocalTime.now();
-        this.voteDate = LocalDate.now();
+    public Vote(Integer id, Menu menu, User user) {
+        this(id, menu, user, LocalDate.now());
+    }
+
+    public Vote(Integer id, Menu menu, User user, LocalDate voteDate) {
+        super(id);
+        this.voteDate = voteDate;
         this.menu = menu;
         this.user = user;
     }

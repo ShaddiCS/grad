@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "dish")
@@ -16,9 +18,22 @@ import javax.persistence.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Dish extends AbstractBaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @NotBlank
+    @Column(name = "name", nullable = false)
     private String name;
-    private Double price;
+
+    @NotNull
+    @Column(name = "price", nullable = false)
+    private Integer price;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "menu_id", nullable = false)
+    @NotNull
+    private Menu menu;
+
+    public Dish(Integer id, String name, Integer price) {
+        super(id);
+        this.name = name;
+        this.price = price;
+    }
 }

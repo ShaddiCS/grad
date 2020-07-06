@@ -3,10 +3,7 @@ package topjava.grad.domain;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 @Getter
@@ -14,6 +11,7 @@ import javax.persistence.MappedSuperclass;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Access(AccessType.FIELD)
 public abstract class AbstractBaseEntity implements HasId{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
