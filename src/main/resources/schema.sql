@@ -23,7 +23,7 @@ CREATE TABLE dish
 (
     id      INTEGER PRIMARY KEY,
     name    VARCHAR NOT NULL,
-    price   float8  NOT NULL,
+    price   INTEGER NOT NULL,
     menu_id INTEGER NOT NULL,
     FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
 );
@@ -50,8 +50,7 @@ CREATE TABLE vote
     user_id   INTEGER NOT NULL,
     menu_id   INTEGER NOT NULL,
     vote_date DATE    NOT NULL,
-    vote_time TIME    NOT NULL,
-    CONSTRAINT user_menu_idx UNIQUE (user_id, menu_id),
+    CONSTRAINT user_unique_date_idx UNIQUE (user_id, vote_date),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
 )

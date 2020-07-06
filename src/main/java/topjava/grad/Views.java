@@ -4,4 +4,8 @@ public class Views {
     public interface NamePrice {
 
     }
+
+    public interface EmailPassword {
+
+    }
 }
