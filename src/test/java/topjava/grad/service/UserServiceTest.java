@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import topjava.grad.domain.Role;
@@ -14,7 +15,8 @@ import topjava.grad.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static topjava.grad.data.UserTestData.*;
 
 @SpringBootTest
@@ -27,14 +29,17 @@ class UserServiceTest {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Test
     void getAll() {
-        USER_MATCHER.assertMatch(userService.getAll(), List.of(USER, ADMIN));
+        USER_MATCHER.assertMatch(userService.getAll(), List.of(withEncodedPassword(USER), withEncodedPassword(ADMIN)));
     }
 
     @Test
     void get() {
-        USER_MATCHER.assertMatch(userService.get(USER_ID), USER);
+        USER_MATCHER.assertMatch(userService.get(USER_ID), withEncodedPassword(USER));
     }
 
     @Test
@@ -44,7 +49,7 @@ class UserServiceTest {
 
     @Test
     void getByMail() {
-        USER_DETAILS_MATCHER.assertMatch(userService.loadUserByUsername(USER.getEmail()), USER);
+        USER_DETAILS_MATCHER.assertMatch(userService.loadUserByUsername(USER.getEmail()), withEncodedPassword(USER));
     }
 
     @Test
@@ -83,5 +88,11 @@ class UserServiceTest {
     void createDuplicateMail() {
         assertThrows(DataAccessException.class,
                 () -> userService.create(new User(null, "user@yandex.ru", "newPass", Role.USER)));
+    }
+
+    User withEncodedPassword(User user) {
+        User newUser = new User(user);
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        return newUser;
     }
 }

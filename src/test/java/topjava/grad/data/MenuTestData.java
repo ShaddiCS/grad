@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import static topjava.grad.data.RestaurantTestData.PLACE_1_ID;
 
 public class MenuTestData {
-    public static final TestMatcher<Menu> MENU_MATCHER = new TestMatcher<>("restaurant", "dishes");
+    public static final TestMatcher<Menu> MENU_MATCHER = new TestMatcher<>(Menu.class, "restaurant", "dishes");
     public static final int MENU_1_ID = 100005;
     public static final int MENU_2_ID = 100006;
     public static final int MENU_3_ID = 100007;

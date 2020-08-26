@@ -10,7 +10,7 @@ import static topjava.grad.data.UserTestData.ADMIN;
 import static topjava.grad.data.UserTestData.USER;
 
 public class VoteTestData {
-    public static final TestMatcher<Vote> VOTE_MATCHER = new TestMatcher<>("user", "menu");
+    public static final TestMatcher<Vote> VOTE_MATCHER = new TestMatcher<>(Vote.class, "user", "menu");
 
     public static final Integer VOTE_1_ID = 100014;
     public static final Integer VOTE_2_ID = 100015;

@@ -12,7 +12,7 @@ import topjava.grad.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static topjava.grad.data.RestaurantTestData.*;
 
 @Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))

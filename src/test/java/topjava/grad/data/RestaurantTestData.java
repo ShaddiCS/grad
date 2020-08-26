@@ -6,7 +6,7 @@ import topjava.grad.domain.Restaurant;
 import java.util.List;
 
 public class RestaurantTestData {
-    public static final TestMatcher<Restaurant> RESTAURANT_MATCHER = new TestMatcher<>();
+    public static final TestMatcher<Restaurant> RESTAURANT_MATCHER = new TestMatcher<>(Restaurant.class);
 
     public static final int PLACE_1_ID = 100002;
     public static final int PLACE_2_ID = 100003;

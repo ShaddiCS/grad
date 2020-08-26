@@ -10,7 +10,6 @@ import topjava.grad.domain.Vote;
 import topjava.grad.repo.VoteRepo;
 import topjava.grad.util.exception.NotFoundException;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +53,7 @@ class VoteServiceTest {
         Vote newVote = getNewVote();
         User user = newVote.getUser();
         voteService.vote(PLACE_1_ID, user);
-        Vote created = voteRepo.getByUser(user, LocalDate.now());
+        Vote created = voteRepo.getByUser(user, LocalDate.now()).orElseThrow(() -> new NotFoundException("user=" + user));
         newVote.setId(created.getId());
 
         VOTE_MATCHER.assertMatch(created, newVote);

@@ -9,7 +9,7 @@ import java.util.List;
 import static topjava.grad.data.MenuTestData.MENU_1_ID;
 
 public class DishTestData {
-    public static final TestMatcher<Dish> DISH_MATCHER = new TestMatcher<>("menu");
+    public static final TestMatcher<Dish> DISH_MATCHER = new TestMatcher<>(Dish.class, "menu");
 
     public static final int DISH_1_ID = 100008;
     public static final int DISH_2_ID = 100009;
