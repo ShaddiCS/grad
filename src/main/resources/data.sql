@@ -22,7 +22,8 @@ INSERT INTO restaurant (id, name) VALUES
 INSERT INTO menu (id, date, restaurant_id) VALUES
   (100005, CURRENT_DATE, 100002),
   (100006, CURRENT_DATE, 100003),
-  (100007, CURRENT_DATE - INTEGER '1', 100004);
+--   (100007, CURRENT_DATE - INTEGER '1', 100004);
+  (100007, DATEADD('DAY', '-1', CURRENT_DATE), 100004);
 
 INSERT INTO dish (id, name, price, menu_id) VALUES
     (100008, 'First main', 100, 100005),
@@ -33,4 +34,5 @@ INSERT INTO dish (id, name, price, menu_id) VALUES
 
 INSERT INTO vote (id, user_id, menu_id, vote_date) VALUES
     (100014, 100001, 100005, CURRENT_DATE),
-    (100015, 100000, 100007, CURRENT_DATE - INTEGER '1');
+    (100015, 100000, 100007, DATEADD('DAY', '-1', CURRENT_DATE));
+--     (100015, 100000, 100007, CURRENT_DATE - INTEGER '1');

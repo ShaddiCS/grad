@@ -4,10 +4,13 @@ DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS restaurant;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+DROP SEQUENCE IF EXISTS global_seq;
+
+CREATE SEQUENCE global_seq START WITH 100050 INCREMENT BY 1;
 
 CREATE TABLE restaurant
 (
-    id   INTEGER PRIMARY KEY,
+    id   INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
     name VARCHAR NOT NULL
 );
 
@@ -21,7 +24,7 @@ CREATE TABLE menu
 
 CREATE TABLE dish
 (
-    id      INTEGER PRIMARY KEY,
+    id      INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
     name    VARCHAR NOT NULL,
     price   INTEGER NOT NULL,
     menu_id INTEGER NOT NULL,
@@ -30,7 +33,7 @@ CREATE TABLE dish
 
 CREATE TABLE users
 (
-    id       INTEGER PRIMARY KEY,
+    id       INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
     email    VARCHAR NOT NULL,
     password VARCHAR NOT NULL
 );
@@ -46,7 +49,7 @@ CREATE TABLE user_roles
 
 CREATE TABLE vote
 (
-    id        INTEGER PRIMARY KEY,
+    id        INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
     user_id   INTEGER NOT NULL,
     menu_id   INTEGER NOT NULL,
     vote_date DATE    NOT NULL,
