@@ -13,11 +13,11 @@ import java.util.List;
 public interface MenuRepo extends JpaRepository<Menu, Integer> {
 
     @Query("SELECT m FROM Menu m WHERE m.restaurant=?1")
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Menu> getAllByRestaurant(Restaurant restaurant);
 
     @Query("SELECT m FROM Menu m WHERE m.date=?1")
-    @EntityGraph(attributePaths = {"dishes", "restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"dishes", "restaurant"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Menu> getAllByDate(LocalDate date);
 
     @Modifying
@@ -25,7 +25,7 @@ public interface MenuRepo extends JpaRepository<Menu, Integer> {
     Integer delete(Integer id);
 
     @Query("SELECT m FROM Menu m WHERE m.id=?1")
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.FETCH)
     Menu getWithDishes(Integer id);
 
     @Query("SELECT m FROM Menu m WHERE m.id=?1")
