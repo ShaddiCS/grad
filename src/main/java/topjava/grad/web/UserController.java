@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import topjava.grad.domain.User;
 import topjava.grad.service.UserService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<User> save(@RequestBody User user) {
+    public ResponseEntity<User> save(@Valid @RequestBody User user) {
         checkNew(user);
         User created = userService.create(user);
 
@@ -37,7 +38,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void update(@PathVariable Integer id,@RequestBody User user) {
+    public void update(@PathVariable Integer id,@Valid @RequestBody User user) {
         assureIdConsistent(user, id);
         userService.update(user);
     }
@@ -61,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public User getProfile(@AuthenticationPrincipal User user) {
+    public User getProfile(@Valid @AuthenticationPrincipal User user) {
         return userService.get(user.getId());
     }
 }

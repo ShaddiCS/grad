@@ -1,6 +1,7 @@
 package topjava.grad.web;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import topjava.grad.domain.Restaurant;
 import topjava.grad.service.RestaurantService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class RestaurantController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<Restaurant> register(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> register(@Valid @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
 
         Restaurant created = restaurantService.create(restaurant);
@@ -42,14 +44,15 @@ public class RestaurantController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public void update(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable Integer id) {
         assureIdConsistent(restaurant, id);
         restaurantService.update(restaurant);
     }
 
     @GetMapping("/{id}")
-    public Restaurant get(@PathVariable("id") Restaurant restaurant) {
-        return restaurant;
+    public Restaurant get(@PathVariable("id") Integer id) {
+        return restaurantService.get(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -1,6 +1,7 @@
 package topjava.grad.web;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import topjava.grad.domain.Dish;
 import topjava.grad.domain.to.DishTo;
 import topjava.grad.service.DishService;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 import static topjava.grad.util.ValidationUtil.assureIdConsistent;
@@ -23,7 +25,7 @@ public class DishController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Dish> create(@RequestBody DishTo dishTo) {
+    public ResponseEntity<Dish> create(@Valid @RequestBody DishTo dishTo) {
         checkNew(dishTo);
         Dish created = dishService.create(dishTo);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -41,7 +43,8 @@ public class DishController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void update(@RequestBody DishTo dishTo, @PathVariable Integer id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody DishTo dishTo, @PathVariable Integer id) {
         assureIdConsistent(dishTo, id);
         dishService.update(dishTo);
     }
