@@ -34,4 +34,19 @@ public class ValidationUtil {
             throw new NotFoundException("id=" + id);
         }
     }
+
+    // http://stackoverflow.com/a/28565320/548473
+    public static Throwable getRootCause(Throwable e) {
+            Throwable cause;
+            Throwable result = e;
+
+            while(null != (cause = result.getCause())  && (result != cause) ) {
+                result = cause;
+            }
+            return result;
+    }
+
+    public static String getMessage(Throwable e) {
+        return e.getLocalizedMessage() != null ? e.getLocalizedMessage() : e.getClass().getName();
+    }
 }
