@@ -11,9 +11,8 @@ import topjava.grad.domain.to.DishTo;
 import topjava.grad.repo.DishRepo;
 import topjava.grad.util.exception.NotFoundException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static topjava.grad.data.DishTestData.*;
-import static topjava.grad.data.MenuTestData.MENU_1_ID;
 
 @Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))
 @SpringBootTest

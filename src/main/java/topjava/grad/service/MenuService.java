@@ -1,6 +1,8 @@
 package topjava.grad.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.grad.domain.Menu;
@@ -21,10 +23,12 @@ public class MenuService {
     private final RestaurantRepo restaurantRepo;
 
     @Transactional
+    @CacheEvict(value = "dateMenus", allEntries = true)
     public Menu create(MenuTo menuTo) {
         return menuRepo.save(createFromTo(menuTo));
     }
 
+    @Cacheable("dateMenus")
     public List<Menu> findAllByDate(LocalDate date) {
         return menuRepo.getAllByDate(date);
     }
@@ -34,11 +38,13 @@ public class MenuService {
     }
 
     @Transactional
+    @CacheEvict(value = "dateMenus", allEntries = true)
     public void update(MenuTo menuTo) {
         menuRepo.save(createFromTo(menuTo));
     }
 
     @Transactional
+    @CacheEvict(value = "dateMenus", allEntries = true)
     public void delete(Integer id) {
         if (menuRepo.delete(id) == 0) {
             throw new NotFoundException("id=" + id);

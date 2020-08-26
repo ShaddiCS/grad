@@ -1,6 +1,8 @@
 package topjava.grad.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topjava.grad.domain.Restaurant;
@@ -15,15 +17,19 @@ import java.util.List;
 public class RestaurantService {
     private final RestaurantRepo restaurantRepo;
 
+    @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         return restaurantRepo.findAll();
     }
 
     @Transactional
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         return restaurantRepo.save(restaurant);
     }
+
     @Transactional
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void delete(Integer id) {
         if (restaurantRepo.delete(id) == 0) {
             throw new NotFoundException("id=" + id);
@@ -31,6 +37,7 @@ public class RestaurantService {
     }
 
     @Transactional
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void update(Restaurant restaurant) {
         restaurantRepo.save(restaurant);
     }
