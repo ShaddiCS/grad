@@ -18,8 +18,8 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 @RequestMapping(VoteController.REST_URL)
 public class VoteController {
-    final static String REST_URL = "/rest/vote";
-    private final static LocalTime TIME_LIMIT = LocalTime.of(11, 0);
+    static final String REST_URL = "/rest/vote";
+    private static final LocalTime TIME_LIMIT = LocalTime.of(11, 0);
     private final VoteService voteService;
 
     private final TimeMachine timeMachine;

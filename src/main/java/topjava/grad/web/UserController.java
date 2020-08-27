@@ -20,7 +20,7 @@ import static topjava.grad.util.ValidationUtil.checkNew;
 @RequiredArgsConstructor
 @RequestMapping(UserController.REST_URL)
 public class UserController {
-    final static String REST_URL = "/rest/users";
+    static final String REST_URL = "/rest/users";
     private final UserService userService;
 
     @PostMapping

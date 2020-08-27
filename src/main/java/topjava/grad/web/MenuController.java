@@ -21,7 +21,7 @@ import static topjava.grad.util.ValidationUtil.checkNew;
 @RequestMapping(MenuController.REST_URL)
 public class MenuController {
     private final MenuService menuService;
-    final static String REST_URL = "/rest/menus";
+    static final String REST_URL = "/rest/menus";
 
     @GetMapping
     public List<Menu> list() {

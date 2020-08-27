@@ -20,7 +20,7 @@ import static topjava.grad.util.ValidationUtil.checkNew;
 @RequestMapping(DishController.REST_URL)
 @RequiredArgsConstructor
 public class DishController {
-    final static String REST_URL = "/rest/dishes";
+    static final String REST_URL = "/rest/dishes";
     private final DishService dishService;
 
     @PostMapping
