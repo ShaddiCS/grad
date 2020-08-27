@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))
 @Transactional
 public abstract class AbstractControllerTest {
-    private static final Locale RU_LOCALE = new Locale("ru");
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
 
     static {

@@ -1,5 +1,7 @@
 package topjava.grad.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import topjava.grad.util.ValidationUtil;
 import topjava.grad.util.exception.ErrorInfo;
+import topjava.grad.util.exception.ErrorType;
 import topjava.grad.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +32,8 @@ public class RestExceptionHandler {
 
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
     public static final String EXCEPTION_DUPLICATE_VOTE = "This user already voted today";
+
+    public static final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     private static final Map<String, String> CONSTRAINS_MAP = Map.of(
             "users_unique_email_idx", EXCEPTION_DUPLICATE_EMAIL,
@@ -48,11 +53,11 @@ public class RestExceptionHandler {
             String lowerCaseMessage = rootMessage.toLowerCase();
             for(Map.Entry<String, String> entry : CONSTRAINS_MAP.entrySet()) {
                 if (lowerCaseMessage.contains(entry.getKey())) {
-                    return new ErrorInfo(req.getRequestURL(), VALIDATION_ERROR, VALIDATION_ERROR.getError(), entry.getValue());
+                    return logAndGetErrorInfo(req.getRequestURL(), false, VALIDATION_ERROR, e);
                 }
             }
         }
-        return new ErrorInfo(req.getRequestURL(), DATA_ERROR, DATA_ERROR.getError(), getMessage(ValidationUtil.getRootCause(e)));
+        return logAndGetErrorInfo(req.getRequestURL(), true, VALIDATION_ERROR, e);
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -64,6 +69,17 @@ public class RestExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toArray(String[]::new);
 
-        return new ErrorInfo(req.getRequestURL(), VALIDATION_ERROR, VALIDATION_ERROR.getError(), details);
+        return logAndGetErrorInfo(req.getRequestURI(), false, VALIDATION_ERROR, e, details);
+    }
+
+    public ErrorInfo logAndGetErrorInfo(CharSequence requestUrl, boolean logException, ErrorType errorType, Exception e, String... details) {
+        Throwable cause = ValidationUtil.getRootCause(e);
+        if (logException) {
+            log.error("{} at request {}: {}", errorType, requestUrl, cause);
+        } else {
+            log.warn("{} at request {}: {}", errorType, requestUrl, cause.toString());
+        }
+
+        return new ErrorInfo(requestUrl, VALIDATION_ERROR, VALIDATION_ERROR.getError(), details);
     }
 }
