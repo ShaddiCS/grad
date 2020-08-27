@@ -1,7 +1,6 @@
 package topjava.grad.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import topjava.grad.Views;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -31,14 +30,12 @@ import java.util.Set;
 @Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractBaseEntity implements UserDetails {
-    @JsonView(Views.EmailPassword.class)
     @NotBlank
     @Email
     @Column(name = "email", nullable = false, unique = true)
     @SafeHtml
     private String email;
 
-    @JsonView(Views.EmailPassword.class)
     @NotBlank
     @Size(min = 5, max = 100)
     @Column(name = "password", nullable = false)
@@ -78,12 +75,8 @@ public class User extends AbstractBaseEntity implements UserDetails {
         return roles.contains(Role.ADMIN);
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setRoles(Role role, Role... roles) {
-        this.roles = EnumSet.of(role, roles);
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     @Override

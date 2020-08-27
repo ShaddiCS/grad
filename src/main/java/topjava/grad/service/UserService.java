@@ -13,6 +13,7 @@ import topjava.grad.domain.User;
 import topjava.grad.repo.UserRepo;
 import topjava.grad.util.exception.NotFoundException;
 
+import java.util.EnumSet;
 import java.util.List;
 
 @Service
@@ -53,7 +54,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User create(User user) {
-        user.setRoles(Role.USER);
+        user.setRoles(EnumSet.of(Role.USER));
         return prepareAndSave(user);
     }
 

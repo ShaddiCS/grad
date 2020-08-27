@@ -20,7 +20,7 @@ import static topjava.grad.util.ValidationUtil.checkNew;
 @RequestMapping(RestaurantController.REST_URL)
 @RequiredArgsConstructor
 public class RestaurantController {
-    final static String REST_URL = "/rest/restaurants";
+    static final String REST_URL = "/rest/restaurants";
     private final RestaurantService restaurantService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
