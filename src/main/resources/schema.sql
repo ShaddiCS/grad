@@ -22,6 +22,8 @@ CREATE TABLE menu
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 
+CREATE UNIQUE INDEX menu_date_idx ON menu(id, date);
+
 CREATE TABLE dish
 (
     id      INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
