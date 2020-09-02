@@ -19,12 +19,12 @@ $ mvn clean package
 $ java -Dfile.encoding=UTF8 -jar target/grad.jar
 ```
 
-###Users
+### Users
 403 Forbidden
 ```
 'curl -s http://localhost:8080/rest/users --user user@yandex.ru:password'
 ```
-#####Curl
+##### Curl
 ```
 'curl -s http://localhost:8080/rest/users --user admin@gmail.com:admin'
 'curl -s http://localhost:8080/rest/users/100000 --user admin@gmail.com:admin'
@@ -32,8 +32,8 @@ $ java -Dfile.encoding=UTF8 -jar target/grad.jar
 'curl -s -X DELETE --user admin@gmail.com:admin'
 ```
 
-###Restaurants
-#####Curl
+### Restaurants
+##### Curl
 ```
 'curl -s http://localhost:8080/rest/restaurants --user user@yandex.ru:password'
 'curl -s http://localhost:8080/rest/restaurants/100002 --user user@yandex.ru:password'
@@ -49,8 +49,8 @@ Allowed for Admin
 'curl -s -X PUT -d '{"id":100002, "name":"updated name"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/restaurants/100002 --user admin@gmail.com:admin'
 ```
 
-###Menus
-#####Curl
+### Menus
+##### Curl
 ```
 'curl -s http://localhost:8080/rest/menus --user user@yandex.ru:password'
 'curl -s http://localhost:8080/rest/menus/100005 --user user@yandex.ru:password'
@@ -68,8 +68,8 @@ Allowed for Admin
 'curl -s -X DELETE http://localhost:8080/rest/menus --user admin@gmail.com:admin'
 ```
 
-###Dishes
-#####Curl
+### Dishes
+##### Curl
 ```
 'curl -s http://localhost:8080/rest/dishes/100008 --user user@yander.ru:password'
 ```
@@ -84,8 +84,8 @@ Allowed for Admin
 'curl -s -X DELETE http://localhost:8080/rest/dishes/100009 --user admin@gmail.com:admin'
 ```
 
-###Votes
-#####Curl
+### Votes
+##### Curl
 Current vote
 ```
 'curl -s http://localhost:8080/rest/vote --user user@yandex.ru:password'
