@@ -42,10 +42,6 @@ public class Menu extends AbstractBaseEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
-    public Menu(LocalDate date) {
-        this(null, date);
-    }
-
     public Menu(Integer id, LocalDate date) {
         this(id, date, null);
     }
