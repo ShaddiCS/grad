@@ -1,6 +1,6 @@
 package topjava.grad.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,10 +17,11 @@ import java.util.EnumSet;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepo userRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
