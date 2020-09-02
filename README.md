@@ -2,7 +2,10 @@
 
 Implementation Stack:
 - Spring Boot
-- Spring Data Jpa 
+- Spring Data Jpa
+- Hibernate
+- Lombok
+- Ehcache 3
 
 ## Install:
 ```
