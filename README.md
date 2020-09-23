@@ -1,5 +1,7 @@
 ### A simple voting system for deciding where to have lunch today. 
 
+#### [Task description](task.md)
+
 Implementation Stack:
 - Spring Boot
 - Spring Data Jpa
